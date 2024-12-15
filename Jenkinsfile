@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'danielmagdy/nodeapp'  // Define the image name
-        // DOCKER_TAG = "${GIT_COMMIT}"  // Use the Git commit hash as the tag
-        DOCKER_CREDENTIALS = credentials('6424c895-c035-40b8-9bdf-2cd14adc9c3b') // Jenkins credentials ID for Docker Hub
+        DOCKER_IMAGE = 'danielmagdy/nodejsapp_jenkins'  // Replace with your Docker Hub username and image name
+        DOCKER_TAG = "latest"  // Tag the image with the Git commit hash
+        DOCKER_CREDENTIALS = 'dockerhub_cred'  // Replace with the ID of your Docker Hub credentials stored in Jenkins
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                // Checkout the code directly from GitHub
+                // Checkout the code from GitHub
                 checkout scm
             }
         }
@@ -18,7 +18,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Install Node.js dependencies using npm
+                    // Install Node.js dependencies
                     echo 'Installing dependencies...'
                     sh 'npm install'
                 }
@@ -28,7 +28,7 @@ pipeline {
         stage('Lint') {
             steps {
                 script {
-                    // Run a linting tool (e.g., ESLint)
+                    // Run linting (optional, use if you have linting set up)
                     echo 'Running linting...'
                     sh 'npm run lint'
                 }
@@ -38,7 +38,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Run unit tests using npm
+                    // Run tests (optional, run your unit tests here)
                     echo 'Running tests...'
                     sh 'npm test'
                 }
@@ -48,10 +48,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image using the Dockerfile in your project
+                    // Build Docker image using the Dockerfile in the repository
                     echo 'Building Docker image...'
                     sh """
-                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                    docker build -t ${DOCKER_IMAGE}:latest .
                     """
                 }
             }
@@ -60,7 +60,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Login to Docker Hub
+                    // Login to Docker Hub using Jenkins credentials
                     echo 'Logging in to Docker Hub...'
                     docker.withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
@@ -71,7 +71,7 @@ pipeline {
                     // Push the Docker image to Docker Hub
                     echo 'Pushing Docker image to Docker Hub...'
                     sh """
-                    docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    docker push ${DOCKER_IMAGE}:latest
                     """
                 }
             }
@@ -80,10 +80,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Deploy the app (for example, to a staging environment)
+                    // Deploy the app (optional, if you have a deployment script)
                     echo 'Deploying the application...'
-                    // Example: `sh './deploy.sh'` if you have a deployment script
-                    // Add your deployment commands here
+                    // Example: `sh './deploy.sh'`
                 }
             }
         }
@@ -92,17 +91,15 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            // Clean up any temporary files, etc.
+            // Clean up after the pipeline, e.g., removing temporary files or containers
         }
 
         success {
             echo 'Pipeline completed successfully!'
-            // Send success notifications (e.g., Slack, email, etc.)
         }
 
         failure {
             echo 'Pipeline failed.'
-            // Send failure notifications (e.g., Slack, email, etc.)
         }
     }
 }
