@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'danielmagdy/nodejsapp_jenkins'  // Replace with your Docker Hub username and image name
-        DOCKER_TAG = "latest"  // Tag the image with the Git commit hash
+        // DOCKER_TAG = "latest"  // Tag the image with the Git commit hash
         DOCKER_CREDENTIALS = 'dockerhub_cred'  // Replace with the ID of your Docker Hub credentials stored in Jenkins
     }
 
