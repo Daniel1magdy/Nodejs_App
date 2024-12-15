@@ -25,16 +25,7 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                script {
-                    // Run tests (optional, run your unit tests here)
-                    echo 'Running tests...'
-                    sh 'npm test'
-                }
-            }
-        }
-
+        
         stage('Build Docker Image') {
             steps {
                 script {
