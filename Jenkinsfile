@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'danielmagdy/nodejsapp_jenkins'
         // DOCKER_TAG = "${GIT_COMMIT}"
-        DOCKER_CREDENTIALS = 'dockerhub_cred'  // Replace with your Docker Hub credentials ID
+        DOCKER_CREDENTIALS = 'dockerhub_cred'  
     }
 
     stages {
