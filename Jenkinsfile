@@ -25,16 +25,6 @@ pipeline {
             }
         }
 
-        stage('Lint') {
-            steps {
-                script {
-                    // Run linting (optional, use if you have linting set up)
-                    echo 'Running linting...'
-                    sh 'npm run lint'
-                }
-            }
-        }
-
         stage('Test') {
             steps {
                 script {
