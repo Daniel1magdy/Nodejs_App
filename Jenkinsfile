@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'danielmagdy/nodeapp'  // Define the image name
-        DOCKER_TAG = "${GIT_COMMIT}"  // Use the Git commit hash as the tag
-        DOCKER_CREDENTIALS = '6424c895-c035-40b8-9bdf-2cd14adc9c3b'  // Jenkins credentials ID for Docker Hub
+        // DOCKER_TAG = "${GIT_COMMIT}"  // Use the Git commit hash as the tag
+        DOCKER_CREDENTIALS = credentials('6424c895-c035-40b8-9bdf-2cd14adc9c3b') // Jenkins credentials ID for Docker Hub
     }
 
     stages {
