@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'danielmagdy/nodejsapp_jenkins'
+        DOCKER_IMAGE = 'danielmagdy/nodejsapp_jenkins_2'
         // DOCKER_TAG = "${GIT_COMMIT}"
-        DOCKER_CREDENTIALS = 'docker-build-push'  
+        DOCKER_CREDENTIALS = 'docker-credentials'  
     }
 
     stages {
